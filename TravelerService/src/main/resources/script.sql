@@ -1,0 +1,1 @@
+INSERT INTO user_profile (username, address, date_of_birth, name, telephone) VALUES ('customer', 'via', '01/01/1993', 'luigi', '3801021999')

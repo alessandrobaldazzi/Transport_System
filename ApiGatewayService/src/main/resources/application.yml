@@ -1,0 +1,71 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: traveler-service
+          uri: lb://TRAVELER-SERVICE
+          predicates:
+            - Path= /v1/profile, /v1/tickets, /v1/ticket/**, /v1/admin/travelers, /v1/admin/traveler/**, /v1/admin/traveler/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: traveler-service-circuit-breaker
+                fallbackUri: forward:/fallback
+        - id: ticket-catalog-service
+          uri: lb://TICKET-CATALOG-SERVICE
+          predicates:
+            - Path= /tickets, /orders/**, /admin/**, /shop/**, /admin/ticketcatalog/report
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: ticket-catalog-circuit-breaker
+                fallbackUri: forward:/fallback
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path= /user/register, /user/validate, /user/login, /admin
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: auth-service-circuit-breaker
+                fallbackUri: forward:/fallback
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path= /admin/report, /admin/report/**, /admin/stats, /admin/stats/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: report-service-circuit-breaker
+                fallbackUri: forward:/fallback
+        - id: transit-service
+          uri: lb://TRANSIT-SERVICE
+          predicates:
+            - Path= /admin/transits, /transits, /admin/transits/report, /admin/transits/report/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: transit-service-circuit-breaker
+                fallbackUri: forward:/fallback
+        - id: payment-service
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path= /admin/transactions, /transactions, /admin/payment/report, /admin/payment/report/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: payment-service-circuit-breaker
+                fallbackUri: forward:/fallback
+    config:
+      enabled: false
+  application:
+    name: api-gateway
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+

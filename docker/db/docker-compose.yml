@@ -1,0 +1,56 @@
+version: '3'
+  
+services:
+  db-login-service:
+    image: postgres
+    environment:
+      - POSTGRES_DB=login_service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=group22
+    ports:
+      - 54321:5432
+
+  db-traveler-service:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=traveler_service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=group22
+    ports:
+      - 54322:5432
+
+  db-ticket-catalog-service:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=ticket_catalog_service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=group22
+    ports:
+      - 54323:5432
+
+  db-payment-service:
+    image: postgres
+    environment:
+      - POSTGRES_DB=payment_service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=group22
+    ports:
+      - 54324:5432
+
+  db-transit-service:
+    image: postgres
+    environment:
+      - POSTGRES_DB=transit_service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=group22
+    ports:
+      - 54325:5432
+
+  db-report-service:
+    image: postgres
+    environment:
+      - POSTGRES_DB=report_service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=group22
+    ports:
+      - 54326:5432
